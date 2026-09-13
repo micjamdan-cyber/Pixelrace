@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Pixel Race — Multiplayer PIN Racing</title>
+<link rel="stylesheet" href="style.css" />
+
+<!-- Three.js via ES module import map (no build step needed) -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://unpkg.com/three@0.151.2/build/three.module.js",
+    "three/addons/": "https://unpkg.com/three@0.151.2/examples/jsm/"
+  }
+}
+</script>
+</head>
+<body>
+
+  <!-- ===================== MENU SCREEN ===================== -->
+  <section id="screen-menu" class="screen active">
+    <div class="panel">
+      <h1>🏁 Pixel Race</h1>
+      <p class="subtitle">Create a room or join a friend's with a 4-digit PIN.</p>
+
+      <label class="field">
+        <span>Your name</span>
+        <input id="name-input" maxlength="16" placeholder="Racer" autocomplete="off" />
+      </label>
+
+      <div class="menu-actions">
+        <button id="btn-create" class="btn primary">Create Room</button>
+
+        <div class="join-row">
+          <input id="pin-input" maxlength="4" inputmode="numeric" pattern="[0-9]*" placeholder="PIN" />
+          <button id="btn-join" class="btn">Join Room</button>
+        </div>
+      </div>
+
+      <p id="menu-error" class="error-text"></p>
+      <p id="conn-status" class="conn-status">Connecting…</p>
+    </div>
+  </section>
+
+  <!-- ===================== LOBBY SCREEN ===================== -->
+  <section id="screen-lobby" class="screen">
+    <div class="panel">
+      <h2>Room PIN</h2>
+      <div id="lobby-pin" class="pin-display">----</div>
+      <p class="subtitle">Share this PIN so friends can join.</p>
+
+      <ul id="lobby-players" class="player-list"></ul>
+
+      <div class="lobby-actions">
+        <button id="btn-start" class="btn primary" style="display:none;">Start Race</button>
+        <p id="lobby-hint" class="hint"></p>
+        <button id="btn-leave-lobby" class="btn ghost">Leave Room</button>
+      </div>
+      <p id="lobby-error" class="error-text"></p>
+    </div>
+  </section>
+
+  <!-- ===================== RACE SCREEN ===================== -->
+  <section id="screen-race" class="screen">
+    <canvas id="race-canvas"></canvas>
+
+    <div id="hud" class="hud">
+      <div class="hud-top">
+        <div id="hud-lap" class="hud-chip">Lap 0 / 3</div>
+        <div id="hud-speed" class="hud-chip">0 km/h</div>
+      </div>
+      <div id="hud-standings" class="hud-standings"></div>
+      <div id="countdown-overlay" class="countdown-overlay" style="display:none;"></div>
+    </div>
+
+    <div class="touch-controls" id="touch-controls">
+      <div class="touch-side">
+        <button class="touch-btn" data-key="left">◀</button>
+        <button class="touch-btn" data-key="right">▶</button>
+      </div>
+      <div class="touch-side">
+        <button class="touch-btn" data-key="brake">▼</button>
+        <button class="touch-btn" data-key="throttle">▲</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== RESULTS SCREEN ===================== -->
+  <section id="screen-results" class="screen">
+    <div class="panel">
+      <h2>🏆 Race Results</h2>
+      <ol id="results-list" class="results-list"></ol>
+      <div class="lobby-actions">
+        <button id="btn-restart" class="btn primary" style="display:none;">Back to Lobby</button>
+        <p id="results-hint" class="hint"></p>
+      </div>
+    </div>
+  </section>
+
+  <div id="toast" class="toast" style="display:none;"></div>
+
+  <script type="module" src="game.js"></script>
+</body>
+</html>
